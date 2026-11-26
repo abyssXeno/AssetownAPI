@@ -15,6 +15,7 @@
     "build:launcher": "npm run build -w @assetown/launcher",
     "build:admin": "npm run build -w @assetown/admin",
     "build": "npm run build:shared && npm run build:backend && npm run build:launcher && npm run build:admin",
+    "start": "node apps/backend/dist/index.js",
     "start:backend": "npm run start -w @assetown/backend",
     "dev:backend": "npm run dev -w @assetown/backend",
     "dev:launcher": "npm run dev -w @assetown/launcher",
