@@ -1,0 +1,10 @@
+{
+  "name": "@assetown/router",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Routeur API public Assetown (page d'état + proxy /api)",
+  "scripts": {
+    "test": "node ../../scripts/test-router.mjs"
+  }
+}

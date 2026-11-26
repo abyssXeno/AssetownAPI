@@ -1,0 +1,9 @@
+{
+  "entrypoint": "index.js",
+  "compatibilityDate": "2024-12-01",
+  "modules": [
+    { "name": "index.js", "type": "esm", "path": "./src/index.js" },
+    { "name": "page.js", "type": "esm", "path": "./src/page.js" }
+  ],
+  "assetsDirectory": "./public"
+}

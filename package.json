@@ -1,0 +1,29 @@
+{
+  "name": "assetown",
+  "private": true,
+  "version": "1.0.0",
+  "description": "ASSETOWN — launcher joueur, panneau d'administration et backend",
+  "workspaces": [
+    "packages/*",
+    "apps/backend",
+    "apps/launcher",
+    "apps/admin"
+  ],
+  "scripts": {
+    "build:shared": "npm run build -w @assetown/shared",
+    "build:backend": "npm run build -w @assetown/backend",
+    "build:launcher": "npm run build -w @assetown/launcher",
+    "build:admin": "npm run build -w @assetown/admin",
+    "build": "npm run build:shared && npm run build:backend && npm run build:launcher && npm run build:admin",
+    "start:backend": "npm run start -w @assetown/backend",
+    "dev:backend": "npm run dev -w @assetown/backend",
+    "dev:launcher": "npm run dev -w @assetown/launcher",
+    "dev:admin": "npm run dev -w @assetown/admin",
+    "seed": "npm run seed -w @assetown/backend",
+    "package:launcher": "npm run package:win -w @assetown/launcher",
+    "package:admin": "npm run package:win -w @assetown/admin"
+  },
+  "engines": {
+    "node": ">=22.5.0"
+  }
+}

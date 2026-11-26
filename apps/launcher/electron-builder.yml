@@ -1,0 +1,37 @@
+appId: fr.assetown.launcher
+electronVersion: 33.4.11
+productName: Assetown
+copyright: Assetown
+directories:
+  output: release
+  buildResources: build
+files:
+  - dist/**/*
+  - dist-electron/**/*
+  - package.json
+  - "!**/*.map"
+asar: true
+compression: normal
+win:
+  target:
+    - target: nsis
+      arch:
+        - x64
+  icon: build/icon.png
+  artifactName: Assetown-Setup-${version}.${ext}
+nsis:
+  oneClick: false
+  perMachine: false
+  allowToChangeInstallationDirectory: true
+  createDesktopShortcut: true
+  createStartMenuShortcut: true
+  shortcutName: Assetown
+  uninstallDisplayName: Assetown Launcher
+  deleteAppDataOnUninstall: false
+mac:
+  target: dmg
+  category: public.app-category.games
+linux:
+  target:
+    - AppImage
+  category: Game

@@ -1,0 +1,12 @@
+node_modules/
+dist/
+dist-electron/
+release/
+*.log
+logs/
+.runtime/
+.DS_Store
+.env
+.env.local
+apps/backend/storage/
+*.tsbuildinfo

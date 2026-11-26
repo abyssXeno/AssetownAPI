@@ -1,0 +1,37 @@
+appId: fr.assetown.admin
+electronVersion: 33.4.11
+productName: Assetown Admin Panel
+copyright: Assetown
+directories:
+  output: release
+  buildResources: build
+files:
+  - dist/**/*
+  - dist-electron/**/*
+  - package.json
+  - "!**/*.map"
+asar: true
+compression: normal
+win:
+  target:
+    - target: nsis
+      arch:
+        - x64
+  icon: build/icon.png
+  artifactName: Assetown-Admin-Setup-${version}.${ext}
+nsis:
+  oneClick: false
+  perMachine: false
+  allowToChangeInstallationDirectory: true
+  createDesktopShortcut: true
+  createStartMenuShortcut: true
+  shortcutName: Assetown Admin Panel
+  uninstallDisplayName: Assetown Admin Panel
+  deleteAppDataOnUninstall: false
+mac:
+  target: dmg
+  category: public.app-category.developer-tools
+linux:
+  target:
+    - AppImage
+  category: Utility
