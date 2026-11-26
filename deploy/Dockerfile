@@ -41,8 +41,10 @@ COPY --from=build /app/packages/shared/dist ./packages/shared/dist
 COPY --from=build /app/apps/backend/package.json ./apps/backend/package.json
 COPY --from=build /app/apps/backend/dist ./apps/backend/dist
 
-RUN mkdir -p /data && chown -R node:node /data
-USER node
+# Le volume persistant est monté par la plateforme : sur la plupart des PaaS
+# il appartient à root, donc le conteneur ne tourne pas sous `node` (sinon
+# `mkdir`/SQLite échoue avec EACCES et le process sort immédiatement).
+RUN mkdir -p /data
 VOLUME ["/data"]
 
 WORKDIR /app/apps/backend

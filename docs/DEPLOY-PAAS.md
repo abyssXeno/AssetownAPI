@@ -10,9 +10,13 @@ Launcher / Admin → https://assetown-api-router-…freebuff.site/api  (Cloudfla
                  → conteneur node:24 → /data (SQLite + builds)
 ```
 
-Recommandation : **Northflank Sandbox** — gratuit, sans carte, *always on*,
-2 services, jusqu'à 20 $/mois de ressources offertes, volumes persistants.
-Repli : **Suga Free** (sans carte, HTTPS, volume 1 Go, 256 Mo de RAM).
+> **Constat (novembre 2026)** : Northflank Sandbox annonce « No card needed », mais la
+> création du service declenche en pratique une demande de carte bancaire. Le chemin
+> **sans carte** est donc **Suga Free** (procédure complète au §4) ; Northflank reste
+> documenté au §1 pour plus tard, si une carte devient disponible.
+>
+> Suga Free : 1 projet, 1 environnement, 0,1 vCPU, **256 Mo de RAM**, **1 Go de stockage**,
+> HTTPS/CDN automatique, volume persistant 1 Go max, **aucune carte**, always-on.
 
 L'image est déjà prête : `deploy/Dockerfile` (Node 24, multi-arch, données sur
 `/data`, healthcheck sur `/api/health`).
@@ -36,7 +40,7 @@ git push -u origin main
 `.env`, `apps/backend/storage/`, `logs/`, `.runtime/` et `release/` sont déjà
 exclus par `.gitignore` : **aucun secret ni donnée joueur ne part sur GitHub**.
 
-## 1. Northflank (recommandé)
+## 1. Northflank (carte bancaire demandée en pratique)
 
 1. <https://app.northflank.com/signup> — inscription GitHub ou e-mail, **aucune carte**.
 2. **Create project** → `assetown`.
@@ -109,14 +113,31 @@ Si tu veux malgré tout repartir de la base actuelle, il faut exporter
 `assetown.db` + `secret.key` : sans accès SFTP sur le PaaS, le plus simple est
 d'ajouter un endpoint d'import temporaire (à demander) ou de passer par un VPS.
 
-## 4. Repli : Suga Free
+## 4. Suga Free — la procédure sans carte (à suivre)
 
-Même dépôt, même `deploy/Dockerfile`, **aucune carte** :
+Même dépôt public, même `deploy/Dockerfile`, **aucune carte bancaire**.
 
-- offre Free : 1 projet, 0.1 vCPU, 256 Mo de RAM, **1 Go de stockage**, HTTPS/CDN ;
-- crée un service depuis le dépôt, monte un volume de 1 Go sur `/data`,
-  mêmes variables d'environnement ;
-- 1 Go est suffisant pour l'API + la base + quelques mods, pas pour de gros modpacks.
+1. <https://suga.app> → inscription (GitHub). Aucune carte demandée.
+2. **New project** → **Connect GitHub** → installe l'app **Suga** sur ton compte →
+   autorise le dépôt **`abyssXeno/AssetownAPI`**.
+3. Réglages d'import :
+   - **Branch** : `main`
+   - **Build method** : **Dockerfile**
+   - **Dockerfile path** : `deploy/Dockerfile`
+   - **Root directory / build context** : `.` (racine)
+4. Sur le canvas, sélectionne le service → onglet **Config** → **Public Networking** →
+   **Add** à côté de *Generated URL* → **target port `4200`** → **Apply**.
+   L'URL `https://…suga.run` est fournie en HTTPS.
+5. **Volume** : ajoute un volume sur le canvas → taille **1 Go** → dépose-le sur le
+   service → mount path **`/data`** → **Apply**.
+   Le service doit garder **exactement 1 replica** (obligatoire avec un volume).
+6. Onglet **Env Vars** : les variables du §1.8 (dont `ASSETOWN_DATA_DIR=/data` et
+   `INITIAL_ADMIN_PASSWORD`) → **Save** → **Apply**.
+7. **Deploy**, puis vérifie `https://<service>.suga.run/api/health`.
+
+**Limites à connaître** : 1 Go de stockage (donc builds légers), 5 Mbit/s de bande
+passante sortante sur le plan gratuit (téléchargements de builds lents), 1 seul
+projet par compte.
 
 ## 5. Limites à connaître
 
